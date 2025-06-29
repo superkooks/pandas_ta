@@ -15,7 +15,7 @@ from numpy import fabs as npFabs
 from numpy import floor as npFloor
 from numpy import exp as npExp
 from numpy import log as npLog
-from numpy import NaN as npNaN
+from numpy import nan as npNaN
 from numpy import ndarray as npNdArray
 from numpy import seterr
 from numpy import sqrt as npSqrt
@@ -93,7 +93,9 @@ def linear_regression(x: Series, y: Series) -> dict:
     m, n = x.size, y.size
 
     if m != n:
-        print(f"[X] Linear Regression X and y have unequal total observations: {m} != {n}")
+        print(
+            f"[X] Linear Regression X and y have unequal total observations: {m} != {n}"
+        )
         return {}
 
     if Imports["sklearn"]:
@@ -105,7 +107,8 @@ def linear_regression(x: Series, y: Series) -> dict:
 def log_geometric_mean(series: Series) -> float:
     """Returns the Logarithmic Geometric Mean"""
     n = series.size
-    if n < 2: return 0
+    if n < 2:
+        return 0
     else:
         series = series.fillna(0) + 1
         if npAll(series > 0):
@@ -174,8 +177,10 @@ def symmetric_triangle(n: int = None, **kwargs: dict) -> Optional[List[int]]:
 
 def weights(w: npNdArray):
     """Calculates the dot product of weights with values x"""
+
     def _dot(x):
         return npDot(w, x)
+
     return _dot
 
 
@@ -227,13 +232,16 @@ def _linear_regression_np(x: Series, y: Series) -> dict:
         _np_err = seterr()
         seterr(divide="ignore", invalid="ignore")
         result = {
-            "a": a, "b": b, "r": r,
+            "a": a,
+            "b": b,
+            "r": r,
             "t": r / npSqrt((1 - r * r) / (m - 2)),
             "line": line,
         }
         seterr(divide=_np_err["divide"], invalid=_np_err["invalid"])
 
     return result
+
 
 def _linear_regression_sklearn(x: Series, y: Series) -> dict:
     """Simple Linear Regression in Scikit Learn for two 1d arrays for
@@ -246,8 +254,10 @@ def _linear_regression_sklearn(x: Series, y: Series) -> dict:
     a, b = lr.intercept_, lr.coef_[0]
 
     result = {
-        "a": a, "b": b, "r": r,
+        "a": a,
+        "b": b,
+        "r": r,
         "t": r / npSqrt((1 - r * r) / (x.size - 2)),
-        "line": a + b * x
+        "line": a + b * x,
     }
     return result

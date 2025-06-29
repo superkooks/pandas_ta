@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from numpy import NaN as npNaN
+from numpy import nan as npNaN
 from pandas import DataFrame, Series
 from pandas_ta.utils import get_offset, verify_series
 
@@ -111,8 +111,7 @@ def psar(high, low, close=None, af=None, max_af=None, offset=None, **kwargs):
     return psardf
 
 
-psar.__doc__ = \
-"""Parabolic Stop and Reverse (psar)
+psar.__doc__ = """Parabolic Stop and Reverse (psar)
 
 Parabolic Stop and Reverse
 

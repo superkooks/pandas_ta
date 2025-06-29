@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from numpy import log as nplog
-from numpy import NaN as npNaN
+from numpy import nan as npNaN
 from pandas import DataFrame, Series
 from pandas_ta.overlap import ema, hl2
 from pandas_ta.utils import get_offset, high_low_range, verify_series, zero
@@ -16,7 +16,8 @@ def fisher(high, low, length=None, signal=None, offset=None, **kwargs):
     low = verify_series(low, _length)
     offset = get_offset(offset)
 
-    if high is None or low is None: return
+    if high is None or low is None:
+        return
 
     # Calculate Result
     hl2_ = hl2(high, low)
@@ -69,8 +70,7 @@ def fisher(high, low, length=None, signal=None, offset=None, **kwargs):
     return df
 
 
-fisher.__doc__ = \
-"""Fisher Transform (FISHT)
+fisher.__doc__ = """Fisher Transform (FISHT)
 
 Attempts to identify significant price reversals by normalizing prices over a
 user-specified number of periods. A reversal signal is suggested when the the

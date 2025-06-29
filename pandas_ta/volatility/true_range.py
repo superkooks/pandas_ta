@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from numpy import NaN as npNaN
+from numpy import nan as npNaN
 from pandas import DataFrame, concat
 from pandas_ta.utils import get_drift, get_offset, non_zero_range, verify_series
 
@@ -38,8 +38,7 @@ def true_range(high, low, close, drift=None, offset=None, **kwargs):
     return true_range
 
 
-true_range.__doc__ = \
-"""True Range
+true_range.__doc__ = """True Range
 
 An method to expand a classical range (high minus low) to include
 possible gap scenarios.

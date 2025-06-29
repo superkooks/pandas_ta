@@ -2,7 +2,7 @@
 from typing import Tuple
 
 from numpy import log as npLog
-from numpy import NaN as npNaN
+from numpy import nan as npNaN
 from numpy import sqrt as npSqrt
 from pandas import Series, Timedelta
 
@@ -48,7 +48,9 @@ def calmar_ratio(close: Series, method: str = "percent", years: int = 3) -> floa
     return cagr(close) / max_drawdown(close, method=method)
 
 
-def downside_deviation(returns: Series, benchmark_rate: float = 0.0, tf: str = "years") -> float:
+def downside_deviation(
+    returns: Series, benchmark_rate: float = 0.0, tf: str = "years"
+) -> float:
     """Downside Deviation for the Sortino ratio.
     Benchmark rate is assumed to be annualized. Adjusted according for the
     number of periods per year seen in the data.
@@ -101,7 +103,7 @@ def log_max_drawdown(close: Series) -> float:
     return log_return - max_drawdown(close, method="log")
 
 
-def max_drawdown(close: Series, method:str = None, all:bool = False) -> float:
+def max_drawdown(close: Series, method: str = None, all: bool = False) -> float:
     """Maximum Drawdown from close. Default: 'dollar'.
 
     Args:
@@ -117,9 +119,10 @@ def max_drawdown(close: Series, method:str = None, all:bool = False) -> float:
     max_dd_ = {
         "dollar": max_dd.iloc[0],
         "percent": max_dd.iloc[1],
-        "log": max_dd.iloc[2]
+        "log": max_dd.iloc[2],
     }
-    if all: return max_dd_
+    if all:
+        return max_dd_
 
     if isinstance(method, str) and method in max_dd_.keys():
         return max_dd_[method]
@@ -127,10 +130,13 @@ def max_drawdown(close: Series, method:str = None, all:bool = False) -> float:
 
 
 def optimal_leverage(
-        close: Series, benchmark_rate: float = 0.0,
-        period: Tuple[float, int] = RATE["TRADING_DAYS_PER_YEAR"],
-        log: bool = False, capital: float = 1., **kwargs
-    ) -> float:
+    close: Series,
+    benchmark_rate: float = 0.0,
+    period: Tuple[float, int] = RATE["TRADING_DAYS_PER_YEAR"],
+    log: bool = False,
+    capital: float = 1.0,
+    **kwargs,
+) -> float:
     """Optimal Leverage of a series. NOTE: Incomplete. Do NOT use.
 
     Args:
@@ -152,7 +158,7 @@ def optimal_leverage(
 
     mean_excess_return = period_mu - benchmark_rate
     # sharpe = mean_excess_return / period_std
-    opt_leverage = (period_std ** -2) * mean_excess_return
+    opt_leverage = (period_std**-2) * mean_excess_return
 
     amount = int(capital * opt_leverage)
     return amount
@@ -175,7 +181,13 @@ def pure_profit_score(close: Series) -> Tuple[float, int]:
     return 0
 
 
-def sharpe_ratio(close: Series, benchmark_rate: float = 0.0, log: bool = False, use_cagr: bool = False, period: int = RATE["TRADING_DAYS_PER_YEAR"]) -> float:
+def sharpe_ratio(
+    close: Series,
+    benchmark_rate: float = 0.0,
+    log: bool = False,
+    use_cagr: bool = False,
+    period: int = RATE["TRADING_DAYS_PER_YEAR"],
+) -> float:
     """Sharpe Ratio of a series.
 
     Args:
@@ -198,7 +210,9 @@ def sharpe_ratio(close: Series, benchmark_rate: float = 0.0, log: bool = False, 
         return (period_mu - benchmark_rate) / period_std
 
 
-def sortino_ratio(close: Series, benchmark_rate: float = 0.0, log: bool = False) -> float:
+def sortino_ratio(
+    close: Series, benchmark_rate: float = 0.0, log: bool = False
+) -> float:
     """Sortino Ratio of a series.
 
     Args:
@@ -211,12 +225,14 @@ def sortino_ratio(close: Series, benchmark_rate: float = 0.0, log: bool = False)
     close = verify_series(close)
     returns = percent_return(close=close) if not log else log_return(close=close)
 
-    result  = cagr(close) - benchmark_rate
+    result = cagr(close) - benchmark_rate
     result /= downside_deviation(returns)
     return result
 
 
-def volatility(close: Series, tf: str = "years", returns: bool = False, log: bool = False, **kwargs) -> float:
+def volatility(
+    close: Series, tf: str = "years", returns: bool = False, log: bool = False, **kwargs
+) -> float:
     """Volatility of a series. Default: 'years'
 
     Args:
@@ -237,6 +253,6 @@ def volatility(close: Series, tf: str = "years", returns: bool = False, log: boo
     returns = log_geometric_mean(returns).std()
     # factor = returns.shape[0] / total_time(returns, tf)
     # if kwargs.pop("nearest_day", False) and tf.lower() == "years":
-        # factor = int(factor + 1)
+    # factor = int(factor + 1)
     # return npSqrt(factor) * returns.std()
     return returns

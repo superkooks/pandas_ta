@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from numpy import NaN as npNaN
+from numpy import nan as npNaN
 from pandas import concat, DataFrame, Series
 from pandas_ta.utils import get_drift, get_offset, verify_series, signals
 
@@ -12,7 +12,8 @@ def rsx(close, length=None, drift=None, offset=None, **kwargs):
     drift = get_drift(drift)
     offset = get_offset(offset)
 
-    if close is None: return
+    if close is None:
+        return
 
     # variables
     vC, v1C = 0, 0
@@ -110,7 +111,7 @@ def rsx(close, length=None, drift=None, offset=None, **kwargs):
                     offset=offset,
                 ),
             ],
-            axis=1
+            axis=1,
         )
 
         return signalsdf
@@ -118,8 +119,7 @@ def rsx(close, length=None, drift=None, offset=None, **kwargs):
         return rsx
 
 
-rsx.__doc__ = \
-"""Relative Strength Xtra (rsx)
+rsx.__doc__ = """Relative Strength Xtra (rsx)
 
 The Relative Strength Xtra is based on the popular RSI indicator and inspired
 by the work Jurik Research. The code implemented is based on published code

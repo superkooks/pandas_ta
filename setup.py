@@ -16,9 +16,9 @@ setup(
         "pandas_ta.trend",
         "pandas_ta.utils",
         "pandas_ta.volatility",
-        "pandas_ta.volume"
+        "pandas_ta.volume",
     ],
-    version=".".join(("0", "2", "67b")),
+    version=".".join(("0", "2", "68")),
     description=long_description,
     long_description=long_description,
     author="Kevin Johnson",
@@ -56,9 +56,17 @@ setup(
     # $ pip install -e .[dev,test]
     extras_require={
         "dev": [
-            "alphaVantage-api", "matplotlib", "mplfinance", "scipy",
-            "sklearn", "statsmodels", "stochastic",
-            "talib", "tqdm", "vectorbt", "yfinance",
+            "alphaVantage-api",
+            "matplotlib",
+            "mplfinance",
+            "scipy",
+            "sklearn",
+            "statsmodels",
+            "stochastic",
+            "talib",
+            "tqdm",
+            "vectorbt",
+            "yfinance",
         ],
         "test": ["ta-lib"],
     },
